@@ -4,14 +4,63 @@
 
 ```mermaid
 graph TD
-    A[Système] --> B[Frontend]
+    A[Système de Suivi] --> B[Frontend]
     A --> C[Backend]
     A --> D[Base de Données]
-    B --> B1(Interface Admin)
-    B --> B2(Application Mobile)
-    C --> C1(API PHP)
-    C --> C2(PhpSpreadsheet)
-    D --> D1(MySQL)
+    A --> E[Services Externes]
+    
+    %% Frontend
+    B --> B1[Interface Admin]
+    B1 --> B1a[Tableau de Bord]
+    B1a --> B1a1[Chart.js - Graphiques Temps Réel]
+    B1a --> B1a2[DataTables - Affichage Tabulaire]
+    B1 --> B1b[Gestion Ouvriers]
+    B1b --> B1b1[CRUD Complet]
+    B1 --> B1c[Export Excel]
+    
+    B --> B2[Application Mobile]
+    B2 --> B2a[Instascan.js]
+    B2a --> B2a1[Optimisation Caméra]
+    B2a --> B2a2[Gestion Lumière Faible]
+    B2 --> B2b[Mode Hors-Ligne]
+    B2b --> B2b1[localStorage]
+    B2b --> B2b2[IndexedDB]
+    B2 --> B2c[Synchronisation]
+    B2c --> B2c1[Exponential Backoff]
+    
+    %% Backend
+    C --> C1[API PHP]
+    C1 --> C1a[Routing Personnalisé]
+    C1a --> C1a1[scan.php]
+    C1a --> C1a2[report.php]
+    C1 --> C1b[Authentification]
+    C1b --> C1b1[Sessions PHP]
+    C1b --> C1b2[JWT pour Mobile]
+    
+    C --> C2[PhpSpreadsheet]
+    C2 --> C2a[Génération Excel]
+    C2a --> C2a1[Formules Dynamiques]
+    C2a --> C2a2[Styles Conditionnels]
+    C2 --> C2b[Export PDF]
+    
+    C --> C3[Middleware]
+    C3 --> C3a[Validation Données]
+    C3 --> C3b[Logging]
+    C3 --> C3c[Limite Requêtes]
+    
+    %% Base de Données
+    D --> D1[MySQL]
+    D1 --> D1a[Structure Optimisée]
+    D1a --> D1a1[Index Composite]
+    D1a --> D1a2[Foreign Keys]
+    D1 --> D1b[Procédures Stockées]
+    D1b --> D1b1[Calcul Stats Mensuelles]
+    D1 --> D1c[Sauvegarde Auto]
+    
+    %% Services
+    E --> E1[ngrok]
+    E --> E2[GitHub]
+    E --> E3[phpMyAdmin]
 ```
 
 ## 🛠️ Stack Technologique
