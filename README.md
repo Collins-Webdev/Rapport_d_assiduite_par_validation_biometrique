@@ -1,4 +1,4 @@
-# 📊 Système de Suivi des Présences par QR Code
+# 📊 Système d’assiduité intelligent via validation biométrique
 
 *Un projet complet de gestion des entrées/sorties en milieu industriel avec analyse des données grâce à des outils opensource et entièrement développée en interne, sans recours à du matériel spécifique.*
 
