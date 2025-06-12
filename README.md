@@ -292,6 +292,6 @@ pie
     "MySQL" : 15
 ```
 
-⭐ **Si ce projet vous a plu, n'hésitez pas à laisser une star sur GitHub !** ⭐
+⭐ **Si ce projet vous a plu, n'hésitez pas à laisser une star !** ⭐
 
 > *"Une solution complète pour la gestion moderne des présences en environnement industriel. Pas besoin de badgeuse, de lecteur RFID, ni de tablette dédiée : un simple navigateur web suffit. La solution a été pensée pour être autonome, portable et rentable dès le premier jour.*
