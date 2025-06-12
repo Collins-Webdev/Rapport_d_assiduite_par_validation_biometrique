@@ -74,14 +74,41 @@ mysql -u username -p badge_scan_db < database.sql
 ### **1. Système de Scan Intelligent**
 ```mermaid
 sequenceDiagram
-    Utilisateur->>Mobile: Scan QR Code
-    Mobile->>API: Envoi données
-    alt En ligne
-        API->>BDD: Enregistrement
-        API-->>Mobile: Confirmation
-    else Hors-ligne
-        Mobile->>localStorage: Stockage temporaire
+    participant U as Utilisateur
+    participant M as Mobile
+    participant API as Backend PHP
+    participant DB as MySQL
+    participant A as Interface Admin
+    participant E as Excel
+
+    U->>M: Scan du QR Code
+    M->>API: POST /scan (QR data)
+    
+    alt Mode Connecté
+        API->>DB: INSERT scan (timestamp, type_scan)
+        API-->>M: {"status": "success", "nom": "Jean Dupont"}
+        M->>U: Affiche confirmation
+        API->>DB: Mise à jour des stats
+    else Mode Hors-Ligne
+        M->>localStorage: Stockage en JSON {qr_data, timestamp}
+        M->>U: "Scan enregistré (hors-ligne)"
     end
+
+    loop Synchronisation
+        M->>API: Envoi des scans en attente
+        API->>DB: Bulk INSERT
+    end
+
+    A->>API: GET /report?date=2025-06-01
+    API->>DB: Requête analytique
+    DB-->>API: Stats brutes
+    API-->>A: Formatage JSON
+    
+    A->>API: GET /export-excel
+    API->>DB: Requête complète
+    DB-->>API: Données brutes
+    API->>E: Génération XLSX via PhpSpreadsheet
+    E-->>A: Téléchargement automatique
 ```
 
 ### **2. Analyse des Données**
