@@ -1,0 +1,157 @@
+# 📊 Système de Suivi des Présences par QR Code
+
+*Un projet complet de gestion des entrées/sorties en milieu industriel avec analyse des données grâce à des outils opensource et entièrement développée en interne, sans recours à du matériel spécifique.*
+
+```mermaid
+graph TD
+    A[Système] --> B[Frontend]
+    A --> C[Backend]
+    A --> D[Base de Données]
+    B --> B1(Interface Admin)
+    B --> B2(Application Mobile)
+    C --> C1(API PHP)
+    C --> C2(PhpSpreadsheet)
+    D --> D1(MySQL)
+```
+
+## 🛠️ Stack Technologique
+
+### **Core Stack**
+| Catégorie        | Technologies                                                                 |
+|------------------|-----------------------------------------------------------------------------|
+| **Frontend**     | HTML5, CSS3, JavaScript Vanilla, Chart.js                                   |
+| **Backend**      | PHP 8+, MySQL                                                               |
+| **Bibliothèques**| Instascan.js (Lecture QR), PhpSpreadsheet (Export Excel)                    |
+| **Outils**       | XAMPP, phpMyAdmin, VS Code, NGROK                                                  |
+
+### **Fonctionnalités Clés**
+- 🚪 Système de badge QR avec historique
+- 📈 Tableau de bord analytique
+- 📊 Génération de rapports Excel avancés
+- 📱 Mode hors-ligne (localStorage)
+- 🔐 Interface admin sécurisée
+
+## 🌐 Architecture du Projet
+
+```bash
+badge-system/
+├── admin/
+│   ├── index.php          # Dashboard analytique
+│   ├── functions.php      # Fonctions utilitaires
+│   ├── style.css          # Styles CSS
+│   └── script.js          # Logique frontend
+├── mobile/
+│   ├── index.html         # Interface de scan
+│   └── script.js          # Gestion du QR et offline
+├── api/
+│   ├── get-report.php     # Endpoint des données
+│   └── export-excel.php   # Génération Excel
+└── vendor/                # Dependencies PHP
+```
+
+## 🔧 Installation Locale
+
+### Prérequis
+- PHP 8.0+
+- MySQL 5.7+
+- Ngrok
+- Composer (pour PhpSpreadsheet)
+
+```bash
+# Cloner le dépôt
+git clone https://github.com/votre-utilisateur/badge-system.git
+cd badge-system
+
+# Installer les dépendances
+composer install
+
+# Importer la base de données
+mysql -u username -p badge_scan_db < database.sql
+```
+
+## 🚀 Fonctionnalités Avancées
+
+### **1. Système de Scan Intelligent**
+```mermaid
+sequenceDiagram
+    Utilisateur->>Mobile: Scan QR Code
+    Mobile->>API: Envoi données
+    alt En ligne
+        API->>BDD: Enregistrement
+        API-->>Mobile: Confirmation
+    else Hors-ligne
+        Mobile->>localStorage: Stockage temporaire
+    end
+```
+
+### **2. Analyse des Données**
+- Calcul automatique des retards (seuil configurable)
+- Détection des absences
+- Statistiques journalières/mensuelles
+
+### **3. Export Excel Professionnel**
+```php
+// Exemple de code PhpSpreadsheet
+$spreadsheet = new Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
+$sheet->setCellValue('A1', 'Rapport des Présences');
+$writer = new Xlsx($spreadsheet);
+$writer->save('php://output');
+```
+
+## 📚 Bonnes Pratiques Implémentées
+
+| Domaine          | Implémentation                                                                 |
+|------------------|-------------------------------------------------------------------------------|
+| **Sécurité**     | Protection admin par session PHP, Validation des entrées SQL                  |
+| **Performance**  | Requêtes SQL optimisées, Cache localStorage                                   |
+| **UX**           | Interface responsive, Feedback visuel immédiat                                |
+| **Code Quality** | Separation of Concerns, Fonctions modulaires    
+
+## 🧑‍💼 Cas d'utilisation
+
+Ce système répond efficacement aux besoins des cas d'utilisation suivants. :
+
+1. Gestion des présences en entreprise
+
+2. Suivi des élèves / étudiants
+
+3. Suivi des heures de travail
+
+4. Traçabilité du personnel
+
+5. Registre d’émargement numérique
+
+6. Historique de présence
+
+7. Tableau de bord RH
+
+8. Journal des présences                             |
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! Voici comment participer :
+
+1. Forkez le projet
+2. Créez une branche (`git checkout -b feature/AmazingFeature`)
+3. Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Pushez (`git push origin feature/AmazingFeature`)
+5. Ouvrez une Pull Request
+
+## 📜 License
+MIT © [Votre Nom] - **Utilisation libre pour projets éducatifs et professionnels**
+
+---
+
+```mermaid
+pie
+    title Répartition des Technologies
+    "PHP" : 35
+    "JavaScript" : 30
+    "HTML/CSS" : 20
+    "MySQL" : 15
+```
+
+⭐ **Si ce projet vous a plu, n'hésitez pas à laisser une star sur GitHub !** ⭐
+
+> *"Une solution complète pour la gestion moderne des présences en environnement industriel. Pas besoin de badgeuse, de lecteur RFID, ni de tablette dédiée : un simple navigateur web suffit. La solution a été pensée pour être autonome, portable et rentable dès le premier jour.*
