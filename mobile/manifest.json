@@ -1,0 +1,21 @@
+{
+  "name": "Scan Badge Usine",
+  "short_name": "BadgeScan",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#2c3e50",
+  "theme_color": "#2c3e50",
+  "description": "Application de scan de badges pour le pointage",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Scan Badge Usine</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SCAN DE BADGE</h1>
+            <div class="instructions">
+                <p>1. Positionnez le QR code dans le cadre</p>
+                <p>2. Maintenez stable pendant 1 seconde</p>
+                <p>3. Besoin d'aide ? <a href="https://wa.me/22953043748" class="help-link"> Contacter l'admin</a></p>
+            </div>
+        </div>
+        
+        <div class="scanner-container">
+            <video id="scanner" playsinline></video>
+            <div class="scan-frame"></div>
+        </div>
+
+        <div class="scan-type">
+            <button id="btn-entree" class="active">Entrée</button>
+            <button id="btn-sortie">Sortie</button>
+        </div>
+
+        <div id="resultat">
+            <div class="status-icon">⌛</div>
+            <p class="status-text">En attente du scan...</p>
+        </div>
+
+        <div class="footer">
+            <p class="version">Version 1.0</p>
+        </div>
+    </div>
+
+    <audio id="successSound" src="/assets/beep.mp3" preload="auto"></audio>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

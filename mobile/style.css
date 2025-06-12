@@ -1,0 +1,148 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+    max-width: 100%;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.instructions {
+    background: #eaf2f8;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 0 auto 15px;
+    max-width: 90%;
+}
+
+.instructions p {
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+.scanner-container {
+    position: relative;
+    flex-grow: 1;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+#scanner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.scan-frame {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 70%;
+    border: 3px solid #27ae60;
+    border-radius: 8px;
+    box-shadow: 0 0 0 100vmax rgba(0,0,0,0.7);
+}
+
+.scan-type {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+    gap: 10px;
+}
+
+.scan-type button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#btn-entree {
+    background: #2ecc71;
+    color: white;
+}
+
+#btn-sortie {
+    background: #e74c3c;
+    color: white;
+    opacity: 0.7;
+}
+
+.scan-type button.active {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+#resultat {
+    text-align: center;
+    margin: 0 auto 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fff;
+    width: 90%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.status-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.status-text {
+    font-size: 1.1rem;
+}
+
+.footer {
+    margin-top: auto;
+    text-align: center;
+}
+
+.version {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+}
+
+.success {
+    background: #d5f5e3;
+    color: #27ae60;
+}
+
+.error {
+    background: #fadbd8;
+    color: #e74c3c;
+}
