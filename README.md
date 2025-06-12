@@ -113,125 +113,116 @@ sequenceDiagram
 
 ### **2. Analyse des Données**
 
+## Côté Mobile
 
-## 📱 Côté Mobile
-- **Lecture QR** : Utilisation d'Instascan.js avec optimisation pour mobiles low-end
-- **Gestion offline** : 
-  ```javascript
-  // Structure du localStorage
-  {
-    "pending_scans": [
-      {
-        "qr_data": "JEAN123",
-        "timestamp": "2025-06-05T08:30:00Z",
-        "sync_attempts": 0
-      }
-    ]
-  }
-````
+### Lecture QR
+Utilisation d'Instascan.js avec optimisation pour mobiles low-end
 
-* **Synchronisation** : Exponential backoff pour les réessais (1min, 5min, 15min)
+### Gestion offline
+```javascript
+// Structure du localStorage
+{
+  "pending_scans": [
+    {
+      "qr_data": "JEAN123",
+      "timestamp": "2025-06-05T08:30:00Z",
+      "sync_attempts": 0
+    }
+  ]
+}
+```
 
-## 🖥️ Côté Backend
+### Synchronisation
+Exponential backoff pour les réessais (1min, 5min, 15min)
 
-* **Endpoints API** :
+## Côté Backend
 
-  ```php
-  // scan.php
-  $data = json_decode(file_get_contents('php://input'));
-  $stmt = $conn->prepare("INSERT INTO scans (...) VALUES (?, ?, ?)");
-  $stmt->bind_param("iss", $data->ouvrier_id, $data->timestamp, $data->type);
-  ```
+### Endpoints API
+```php
+// scan.php
+$data = json_decode(file_get_contents('php://input'));
+$stmt = $conn->prepare("INSERT INTO scans (...) VALUES (?, ?, ?)");
+$stmt->bind_param("iss", $data->ouvrier_id, $data->timestamp, $data->type);
+```
 
-## 🧑‍💼 Côté Admin
+## Côté Admin
 
-* **Analyse en temps réel** :
+### Analyse en temps réel
+```sql
+/* Requête pour détection des retards */
+SELECT 
+  COUNT(CASE WHEN TIME(arrival) > heure_debut THEN 1 END) as retards,
+  COUNT(CASE WHEN arrival IS NULL THEN 1 END) as absents
+FROM scans
+WHERE DATE(timestamp) = CURDATE()
+```
 
-  ```sql
-  /* Requête pour détection des retards */
-  SELECT 
-    COUNT(CASE WHEN TIME(arrival) > heure_debut THEN 1 END) as retards,
-    COUNT(CASE WHEN arrival IS NULL THEN 1 END) as absents
-  FROM scans
-  WHERE DATE(timestamp) = CURDATE()
-  ```
-* **PhpSpreadsheet** :
-
-  ```php
-  // Formatage conditionnel Excel
-  $sheet->getStyle('D2:D100')
-    ->getNumberFormat()
-    ->setFormatCode(
-      '[Vert]#,##0.00;[Rouge]-#,##0.00;[Jaune]"Retard"'
-    );
-  ```
-
-### ✅ Workflow Complet Admin
-
-1. **Authentification** :
-
-   * Session PHP avec token JWT côté client
-
-   ```php
-   $_SESSION['admin'] = [
-     'last_activity' => time(),
-     'ip' => $_SERVER['REMOTE_ADDR']
-   ];
-   ```
-
-2. **Dashboard** :
-
-   * Calcul des KPI en temps réel :
-
-     ```sql
-     /* Taux de présence */
-     SELECT 
-       (COUNT(DISTINCT CASE WHEN s.id IS NOT NULL THEN o.id END) / 
-       COUNT(DISTINCT o.id)) * 100 as taux_presence
-     FROM ouvriers o
-     LEFT JOIN scans s ON o.id = s.ouvrier_id AND DATE(s.timestamp) = ?
-     ```
-
-3. **Détection d'Anomalies** :
-
-   * Algorithme de repérage des motifs récurrents :
-
-   ```php
-   // Détection des retardataires fréquents
-   $frequent_lates = $conn->query("
-     SELECT ouvrier_id, COUNT(*) as lates 
-     FROM scans 
-     WHERE TIME(timestamp) > heure_debut
-     GROUP BY ouvrier_id 
-     HAVING lates > 3
-   ");
-   ```
-
-4. **Export Avancé** :
-
-   * Classe Excel dédiée avec :
-
-     * Onglets multiples
-     * Formules intégrées (SOMME.SI, MOYENNE)
-     * Mise en forme conditionnelle
-
-### 🚀 Optimisations Notables
-
-* **Indexation MySQL** :
-
-  ```sql
-  CREATE INDEX idx_scans_composite ON scans(ouvrier_id, DATE(timestamp));
-  ```
-
-* **Cache navigateur** :
-
-  ```javascript
-  // Service Worker pour pré-cache des assets admin
-  workbox.routing.registerRoute(
-    new RegExp('/admin/.*\\.(js|css)'),
-    new workbox.strategies.CacheFirst()
+### PhpSpreadsheet
+```php
+// Formatage conditionnel Excel
+$sheet->getStyle('D2:D100')
+  ->getNumberFormat()
+  ->setFormatCode(
+    '[Vert]#,##0.00;[Rouge]-#,##0.00;[Jaune]"Retard"'
   );
-  ```
+```
+
+## Workflow Complet Admin
+
+### 1. Authentification
+Session PHP avec token JWT côté client
+```php
+$_SESSION['admin'] = [
+  'last_activity' => time(),
+  'ip' => $_SERVER['REMOTE_ADDR']
+];
+```
+
+### 2. Dashboard
+Calcul des KPI en temps réel :
+```sql
+/* Taux de présence */
+SELECT 
+  (COUNT(DISTINCT CASE WHEN s.id IS NOT NULL THEN o.id END) / 
+  COUNT(DISTINCT o.id)) * 100 as taux_presence
+FROM ouvriers o
+LEFT JOIN scans s ON o.id = s.ouvrier_id AND DATE(s.timestamp) = ?
+```
+
+### 3. Détection d'Anomalies
+Algorithme de repérage des motifs récurrents :
+```php
+// Détection des retardataires fréquents
+$frequent_lates = $conn->query("
+  SELECT ouvrier_id, COUNT(*) as lates 
+  FROM scans 
+  WHERE TIME(timestamp) > heure_debut
+  GROUP BY ouvrier_id 
+  HAVING lates > 3
+");
+```
+
+### 4. Export Avancé
+Classe Excel dédiée avec :
+- Onglets multiples
+- Formules intégrées (SOMME.SI, MOYENNE)
+- Mise en forme conditionnelle
+
+## Optimisations Notables
+
+### Indexation MySQL
+```sql
+CREATE INDEX idx_scans_composite ON scans(ouvrier_id, DATE(timestamp));
+```
+
+### Cache navigateur
+```javascript
+// Service Worker pour pré-cache des assets admin
+workbox.routing.registerRoute(
+  new RegExp('/admin/.*\\.(js|css)'),
+  new workbox.strategies.CacheFirst()
+);
+```
 
 
 - Calcul automatique des retards (seuil configurable)
