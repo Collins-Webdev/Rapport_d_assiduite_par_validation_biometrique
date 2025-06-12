@@ -279,7 +279,7 @@ Les contributions sont les bienvenues ! Voici comment participer :
 5. Ouvrez une Pull Request
 
 ## 📜 License
-MIT © [Votre Nom] - **Utilisation libre pour projets éducatifs et professionnels**
+MIT © [Collins HAYA] - **Utilisation libre pour projets éducatifs et professionnels**
 
 ---
 
